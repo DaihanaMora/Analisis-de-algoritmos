@@ -1,164 +1,63 @@
-# Análisis de Algoritmos
 
-Material de introducción al análisis de algoritmos, complejidad computacional y programación competitiva.
+##### Punto 1 ####
 
----
+# Enlace al problema en LeetCode: https://leetcode.com/problems/assign-cookies/
+# Código de la solución :
+class Solution(object):
+    def findContentChildren(self, g, s):
+        g.sort()
+        s.sort()
+        child_i = 0
+        cookie_j = 0
+        while child_i < len(g) and cookie_j < len(s):
+            if s[cookie_j] >= g[child_i]:
+                child_i += 1 
+            cookie_j += 1
+        return child_i
 
-## ¿Qué es la Complejidad Big O?
+# Pantallazo o comprobante de Accepted:  Adjunto con nombre Punto1.png
+# análisis de complejidad:
+        Complejidad tiempo: O(nlogn + mlogm) El tiempo total depende principalmente de ordenar los dos arreglos (niños y galletas). 
+        Después de ordenar, solo se recorren las listas una vez para hacer los emparejamientos, lo cual es un proceso lineal que no aumenta 
+        el orden de complejidad
 
-**Big O** (notación O grande) es una forma de describir **cuánto crece el tiempo o el espacio** que necesita un algoritmo cuando el tamaño de la entrada crece.
+        Complejidad espacio: O(1) Es espacio constante porque la memoria que usa nuestro código no crece si el problema se hace más grande. 
+        Solo utilizamos un par de variables (contadores) para llevar el control, sin crear listas o estructuras adicionales.
 
-### Idea principal
+# justificación greedy: 
+        Elegir g[child_i] y s[cookie_j] más pequeño posible garantiza que conservamos las galletas de mayor tamaño 
+        para los casos donde son estrictamente necesarias maximizando así el número total de niños satisfechos sin necesidad de
+        explorar otras combinaciones.
 
-- No medimos segundos ni megabytes exactos.
-- Medimos **cómo escala** el algoritmo: si duplicamos la entrada, ¿el tiempo se duplica, se cuadruplica o casi no cambia?
+##### Punto 2 ####
 
-### Notación
+# Enlace al problema en LeetCode: [https://leetcode.com/problems/assign-cookies/](https://leetcode.com/problems/non-overlapping-intervals/)
+# Código de la solución :
+class Solution(object):
+    def eraseOverlapIntervals(self, intervals):
+        if not intervals:
+            return 0  
+        intervals.sort(key=lambda x: x[1])
+        count_removed = 0
+        last_end = intervals[0][1]
+        for i in range(1, len(intervals)):
+            current_start = intervals[i][0]
+            current_end = intervals[i][1]
+            if current_start < last_end:
+                count_removed += 1
+            else:
+                last_end = current_end
+        return count_removed
 
-Se escribe **O( f(n) )**, donde **n** es el tamaño de la entrada (por ejemplo, cantidad de elementos en un arreglo).
+# Pantallazo o comprobante de Accepted:  Adjunto con nombre Punto2.png
+# análisis de complejidad:
+        Complejidad tiempo: O(nlogn) La mayor parte del trabajo ocurre al ordenar los intervalos según su tiempo de finalización. 
+        Una vez ordenados, el algoritmo simplemente los compara uno por uno en una sola pasada para identificar cuáles se solapan.
 
-| Notación   | Nombre        | Ejemplo típico                    | Comportamiento al crecer n |
-|-----------|----------------|------------------------------------|----------------------------|
-| **O(1)**  | Constante      | Acceso a un índice en un arreglo   | No depende de n            |
-| **O(log n)** | Logarítmica | Búsqueda binaria                  | Crece muy lento            |
-| **O(n)**  | Lineal         | Recorrer un arreglo una vez       | Crece proporcional a n     |
-| **O(n log n)** | Linealítmica | Merge sort, muchos sorts eficientes | Entre lineal y cuadrático |
-| **O(n²)** | Cuadrática     | Dos ciclos anidados sobre n       | Crece rápido               |
-| **O(2ⁿ)** | Exponencial    | Recursión sin memoización típica   | Crece muy rápido           |
+        Complejidad espacio: O(1) El uso de memoria es mínimo y fijo. Solo necesitamos guardar el conteo de intervalos eliminados y el tiempo de fin del último intervalo aceptado. 
+        No importa cuántosintervalos recibamos, el consumo de memoria extra será siempre el mismo.
 
-### Reglas prácticas
-
-1. **Despreciar constantes**: O(2n) → O(n), O(500) → O(1).
-2. **Despreciar términos menores**: O(n² + n) → O(n²).
-3. **Peor caso**: Big O suele referirse al **peor caso** de tiempo o espacio.
-
-Con Big O podemos comparar algoritmos y elegir el más adecuado según el tamaño de los datos.
-
----
-
-## Introducción al Análisis de Algoritmos
-
-El **análisis de algoritmos** consiste en evaluar:
-
-- **Tiempo**: cuántas operaciones básicas se ejecutan (en función del tamaño de la entrada).
-- **Espacio**: cuánta memoria adicional se usa (variables, estructuras, recursión).
-
-### Objetivos
-
-1. **Predecir rendimiento** sin implementar en todos los entornos.
-2. **Comparar** distintas soluciones al mismo problema.
-3. **Detectar cuellos de botella** y saber si una solución escalará bien.
-
-### Cómo se analiza
-
-1. Identificar **operaciones básicas** (comparaciones, asignaciones, accesos a memoria).
-2. Expresar su cantidad en función de **n** (tamaño de la entrada).
-3. Simplificar usando la notación Big O (quedarse con el término dominante y sin constantes).
-
-Así pasamos de “cuenta exacta de operaciones” a una clase de complejidad como O(n) u O(n²), que es lo que suele usarse en la práctica y en programación competitiva.
-
----
-
-## ¿Qué es la Programación Competitiva?
-
-La **programación competitiva** es un tipo de competición donde se resuelven problemas algorítmicos bajo **límites de tiempo y memoria** estrictos.
-
-### Características
-
-- Problemas con **entrada/salida** bien definida y casos de prueba automáticos.
-- Soluciones que deben ser **correctas** y además **eficientes** (complejidad adecuada).
-- Uso de **Big O** para decidir si una idea cabe en tiempo (y memoria) antes de implementar.
-
-### Habilidades que se desarrollan
-
-- Pensar en **complejidad** (tiempo y espacio).
-- Elegir **estructuras de datos** (arreglos, mapas, conjuntos, pilas, colas).
-- Reducir un problema a **patrones** conocidos (búsqueda, ordenamiento, dos punteros, etc.).
-
-### Plataformas habituales
-
-- LeetCode, Codeforces, AtCoder, HackerRank, SPOJ, entre otras.
-
-El ejercicio **Two Sum** es un clásico de entrevistas y de programación competitiva; a continuación se presenta con solución directa y optimizada, y su análisis de complejidad.
-
----
-
-## Ejercicio: Two Sum
-
-### Enunciado
-
-Dado un arreglo de enteros `nums` y un entero `target`, devolver **índices** de dos números que sumen `target`.  
-Puedes asumir que existe exactamente una solución y no debes usar el mismo elemento dos veces.
-
-**Ejemplo:**
-
-- Entrada: `nums = [2, 7, 11, 15]`, `target = 9`
-- Salida: `[0, 1]` (porque `nums[0] + nums[1] = 2 + 7 = 9`)
-
----
-
-### Solución 1: Fuerza bruta (normal)
-
-Recorrer todos los pares de índices `(i, j)` con `i < j` y comprobar si `nums[i] + nums[j] == target`.
-
-```python
-def two_sum_brute_force(nums: list[int], target: int) -> list[int]:
-
-    for i in range(len(nums)):
-        for j in range(i + 1, len(nums)):
-            if nums[i] + nums[j] == target:
-                return [i, j]
-```
-
-**Complejidad:**
-
-- **Tiempo:** O(n²). Hay dos ciclos anidados que en total revisan O(n²) pares.
-- **Espacio:** O(1). Solo variables de índices y constantes.
-
-Funciona bien para **n** pequeño; para **n** grande suele dar “Time Limit Exceeded” en jueces online.
-
----
-
-### Solución 2: Hash map (optimizada)
-
-En un solo recorrido guardamos en un diccionario **valor → índice**. Para cada `nums[i]` calculamos `complemento = target - nums[i]`. Si `complemento` ya está en el diccionario, esos dos índices son la respuesta.
-
-```python
-def two_sum_optimized(nums: list[int], target: int) -> list[int]:
-    visto = {}  # valor -> índice
-    for i, num in enumerate(nums):
-        complemento = target - num
-        if complemento in visto:
-            return [visto[complemento], i]
-        visto[num] = i
-    return []
-```
-
-**Complejidad:**
-
-- **Tiempo:** O(n). Un solo recorrido; cada búsqueda e inserción en el diccionario es O(1) en promedio.
-- **Espacio:** O(n). En el peor caso guardamos casi todos los elementos en `visto`.
-
----
-
-### Comparación y análisis de complejidad
-
-| Criterio   | Fuerza bruta | Hash map   |
-|-----------|--------------|------------|
-| Tiempo    | O(n²)        | O(n)       |
-| Espacio   | O(1)         | O(n)       |
-| Uso típico| n pequeño    | n grande   |
-
-- Para **n grande**, la solución con hash map es la estándar: evita el límite de tiempo.
-- La fuerza bruta es más fácil de entender y no usa memoria extra; sirve para verificar la lógica o cuando **n** es muy pequeño.
-
-Este ejemplo ilustra cómo el **análisis de complejidad (Big O)** guía la elección del algoritmo en problemas de programación competitiva y en entrevistas técnicas.
-
----
-
-## Resumen
-
-1. **Big O** describe cómo crece el tiempo o el espacio de un algoritmo con el tamaño de la entrada.
-2. El **análisis de algoritmos** usa Big O para comparar y predecir el rendimiento.
-3. En **programación competitiva** se exige que las soluciones sean correctas y eficientes.
-4. **Two Sum** se puede resolver en O(n²) con fuerza bruta o en O(n) con un hash map; la versión optimizada es la recomendada para entradas grandes.
+# justificación greedy: 
+        Al elegir el intervalo que termina más pronto, dejamos el máximo tiempo libre restante para acomodar otros intervalos. 
+        Cualquier otra elección (elegir un intervalo que termine después) solo podría reducir las opciones para los intervalos futuros. Por lo tanto, 
+        la elección local de "terminar lo antes posible" asegura que no estamos bloqueando de forma innecesaria intervalos que vienen después.
