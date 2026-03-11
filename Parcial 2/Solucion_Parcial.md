@@ -19,7 +19,7 @@ class Solution(object):
         return child_i
 ```
 ### Pantallazo o comprobante de Accepted:  
-Adjunto con nombre Punto1.png
+![Accepted Leetcode Punto 1](Punto1.png)
 
 ### análisis de complejidad:
        Complejidad tiempo: O(nlogn + mlogm) El tiempo total depende principalmente de ordenar los dos arreglos (niños y galletas). 
@@ -58,7 +58,7 @@ class Solution(object):
         return count_removed
 ```
 ### Pantallazo o comprobante de Accepted:  
-Adjunto con nombre Punto2.png
+![Accepted Leetcode Punto 2](Punto2.png)
 
 ### análisis de complejidad:
         Complejidad tiempo: O(nlogn) La mayor parte del trabajo ocurre al ordenar los intervalos según su tiempo de finalización. 
