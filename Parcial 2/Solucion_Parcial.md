@@ -5,7 +5,7 @@
  https://leetcode.com/problems/assign-cookies/
  
 ### Código de la solución:
-```
+```python
 class Solution(object):
     def findContentChildren(self, g, s):
         g.sort()
@@ -40,7 +40,7 @@ class Solution(object):
 https://leetcode.com/problems/non-overlapping-intervals/
 
 ### Código de la solución:
-```
+```python
 class Solution(object):
     def eraseOverlapIntervals(self, intervals):
         if not intervals:
@@ -78,7 +78,7 @@ class Solution(object):
 https://leetcode.com/problems/jump-game/description/
 
 ### Código de la solución:
-```
+```python
 class Solution:
     def canJump(self, nums: list[int]) -> bool:
 
@@ -120,7 +120,7 @@ class Solution:
 https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/submissions/1947473363/
 
 ### Código de la solución:
-```
+```python
 class Solution:
     def maxProfit(self, prices: list[int]) -> int:
 
@@ -155,3 +155,52 @@ class Solution:
         y no podemos tener más de una acción al mismo tiempo. Por eso,
         capturar cada incremento positivo equivale a comprar en un valle
         y vender en el siguiente pico, obteniendo así la ganancia máxima
+          
+## Punto 5 
+
+### Enlace al problema en LeetCode: 
+https://leetcode.com/problems/merge-intervals/submissions/1947894633/
+
+### Código de la solución:
+```python
+class Solution:
+    def merge(self, intervals):
+    
+        intervals.sort(key=lambda x: x[0])
+        
+        merged = [intervals[0]]
+        
+        for start, end in intervals[1:]:
+            if start <= merged[-1][1]:
+                merged[-1][1] = max(merged[-1][1], end)
+            else:
+                merged.append([start, end])
+                
+        return merged
+```
+### Pantallazo o comprobante de Accepted:  
+![Accepted Leetcode Punto 5](Punto5.png)
+
+### análisis de complejidad:
+        Complejidad de tiempo: O(n log n). Primero se ordenan los intervalos
+        según su punto de inicio, lo cual cuesta O(n log n). Luego se hace
+        un solo recorrido del arreglo para verificar si los intervalos se
+        solapan y fusionarlos cuando sea necesario, lo cual cuesta O(n).
+        Por lo tanto, el costo total está dominado por el ordenamiento.
+
+        Complejidad de espacio: O(n). En el peor caso ningún intervalo se
+        solapa con otro, por lo que todos deben almacenarse en la lista
+        de resultado.
+
+### justificación greedy:        
+        Se utiliza una estrategia greedy porque en cada paso se toma la
+        decisión local de fusionar inmediatamente los intervalos que se
+        solapan. Una vez que los intervalos están ordenados por su inicio,
+        solo es necesario comparar cada intervalo con el último que ya
+        fue agregado al resultado.
+
+        Si se detecta solapamiento, se extiende el límite derecho del
+        intervalo actual para cubrir ambos intervalos. Esta decisión es
+        segura porque ningún intervalo futuro puede empezar antes que los
+        ya procesados, por lo que fusionarlos en ese momento produce el
+        intervalo más grande posible sin afectar la solución óptima.
