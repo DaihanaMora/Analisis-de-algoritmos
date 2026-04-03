@@ -1,21 +1,34 @@
 ## Punto 1
 
 ### Enlace al problema en LeetCode: 
- https://leetcode.com/problems/assign-cookies/
+ https://leetcode.com/problems/longest-increasing-subsequence/
  
 ### Código de la solución:
 ```
-class Solution(object):
-    def findContentChildren(self, g, s):
-        g.sort()
-        s.sort()
-        child_i = 0
-        cookie_j = 0
-        while child_i < len(g) and cookie_j < len(s):
-            if s[cookie_j] >= g[child_i]:
-                child_i += 1 
-            cookie_j += 1
-        return child_i
+class Solution:
+    def lengthOfLIS(self, nums: list[int]) -> int:
+        if not nums:
+            return 0
+        
+        tails = []
+        
+        for num in nums:       
+            left, right = 0, len(tails)
+            
+            while left < right:
+                mid = (left + right) // 2
+                if tails[mid] < num:
+                    left = mid + 1
+                else:
+                    right = mid
+            
+            if left == len(tails):
+                tails.append(num)
+            else:
+               
+                tails[left] = num
+                
+        return len(tails)
 ```
 ### Pantallazo o comprobante de Accepted:  
 ![Accepted Leetcode Punto 1](Punto1.png)
