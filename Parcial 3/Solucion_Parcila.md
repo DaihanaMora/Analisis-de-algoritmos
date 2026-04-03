@@ -41,3 +41,52 @@ class Solution:
        
        Complejidad espacio: O(n), ya que en el peor de los casos (una lista estrictamente creciente), el arreglo tails tendrá el mismo tamaño que nums.
 
+## Punto 2
+
+### Enlace al problema en LeetCode: 
+ https://leetcode.com/problems/word-break/
+ 
+### Código de la solución:
+```
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        word_set = set(wordDict)
+        n = len(s)
+        dp = [False] * (n + 1)
+        dp[0] = True
+        for i in range(1, n + 1):
+            for j in range(i):
+                if dp[j] and s[j:i] in word_set:
+                    dp[i] = True
+                    break               
+        return dp[n]
+```
+### Pantallazo o comprobante de Accepted:  
+![Accepted Leetcode Punto 2](Punto2.png)
+
+### Análisis de Complejidad (Big O) : 
+    Tiempo: O(n2.k) tenemos un bule externo que recorre la cadena de n, 
+    un bucle interno que busca el punto de corte de j (n) , la operacion de slicing s[j:i] y 
+    la búsqueda en el conjunto toman O(k) donde k es la longitud de la palabra 
+    (en Python, el slicing de strings es O(k)).
+    
+    Espacio: O(n+m.k) O(n) para el arreglo dp.
+    O(m.k)para almacenar el diccionario en un set, donde m es el número de palabras y k su longitud promedio.
+### Estado DP : 
+    dp[i]: Representa específicamente si la subcadena que termina justo antes del índice i es procesable.
+    Implementación eficiente: Usamos break en el bucle interno: en cuanto encontramos un punto de corte j 
+    que hace que el prefijo sea válido, no necesitamos probar otros cortes para esa i específica.
+### Problemas en una y dos dimensiones, y patrones típicos:
+    Dimensión: Es un problema de 1D (una dimensión). Aunque usamos dos índices ($i, j$), el estado se representa en un 
+    arreglo lineal dp[i] que rastrea el progreso a lo largo de la cadena.
+    
+    Patrón de Partición: A diferencia de "Decode Ways" donde los saltos eran fijos (1 o 2), aquí el "salto" es variable. 
+    Es un patrón típico donde debemos decidir dónde "cortar" la cadena para que los fragmentos sean válidos.
+    
+    Restricciones: El uso de un set para el diccionario es una restricción de eficiencia necesaria para evitar una 
+    complejidad $O(n^2 \cdot m)$ si buscáramos en una lista.
+
+
+
+    
+   
