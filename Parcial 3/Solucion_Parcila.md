@@ -65,7 +65,7 @@ class Solution:
 ![Accepted Leetcode Punto 2](Punto2.png)
 
 ### Análisis de Complejidad (Big O) : 
-    Tiempo: O(n2.k) tenemos un bule externo que recorre la cadena de n, 
+    Tiempo: O(n^2.k) tenemos un bule externo que recorre la cadena de n, 
     un bucle interno que busca el punto de corte de j (n) , la operacion de slicing s[j:i] y 
     la búsqueda en el conjunto toman O(k) donde k es la longitud de la palabra 
     (en Python, el slicing de strings es O(k)).
@@ -77,16 +77,53 @@ class Solution:
     Implementación eficiente: Usamos break en el bucle interno: en cuanto encontramos un punto de corte j 
     que hace que el prefijo sea válido, no necesitamos probar otros cortes para esa i específica.
 ### Problemas en una y dos dimensiones, y patrones típicos:
-    Dimensión: Es un problema de 1D (una dimensión). Aunque usamos dos índices ($i, j$), el estado se representa en un 
+    Dimensión: Es un problema de 1D (una dimensión). Aunque usamos dos índices (i, j), el estado se representa en un 
     arreglo lineal dp[i] que rastrea el progreso a lo largo de la cadena.
     
     Patrón de Partición: A diferencia de "Decode Ways" donde los saltos eran fijos (1 o 2), aquí el "salto" es variable. 
     Es un patrón típico donde debemos decidir dónde "cortar" la cadena para que los fragmentos sean válidos.
     
     Restricciones: El uso de un set para el diccionario es una restricción de eficiencia necesaria para evitar una 
-    complejidad $O(n^2 \cdot m)$ si buscáramos en una lista.
+    complejidad O(n^2. m) si buscáramos en una lista.
 
+## Punto 3
 
+### Enlace al problema en LeetCode: 
+https://leetcode.com/problems/decode-ways/
+ 
+### Código de la solución: 
+```
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        if not s or s[0] == '0':
+            return 0
+        n = len(s)
+        dp = [0] * (n + 1)
+        dp[0] = 1
+        dp[1] = 1 
+        for i in range(2, n + 1):
+            if s[i-1] != '0':
+                dp[i] += dp[i-1]
+            two_digit = int(s[i-2:i])
+            if 10 <= two_digit <= 26:
+                dp[i] += dp[i-2]            
+        return dp[n]
+ ```
+### Pantallazo o comprobante de Accepted:  
+![Accepted Leetcode Punto 3](Punto3.png)   
 
+### Análisis de Complejidad (Big O) :
+    Tiempo: Tiempo: O(n)Recorremos la cadena una sola vez. En cada paso, las operaciones de conversión a entero y comparación 
+    son constantes ya que el tamaño del substring es máximo 2.
     
+    Espacio: Espacio: O(n) Utilizamos un arreglo dp de tamaño n + 1
+    Se podría optimizar a O(1) usando solo dos variables para guardar dp[i-1] y dp[i-2].
+### Estado DP : 
+    dp[i]:representa el acumulado de caminos válidos encontrados hasta la longitud i
+### Problemas en una y dos dimensiones, y patrones típicos:
+    Dimensión:Dimensión: Problema de 1D. El estado depende únicamente de la posición actual en la cadena.
+    
+    Patrón de Restricción: El dígito '0' es el principal obstáculo. Un '0' no puede decodificarse solo,
+    y solo es válido si está precedido por '1' o '2'. Si hay un '0' que no cumple esto (ej. "30" o "05"), 
+    la cadena es inválida.
    
