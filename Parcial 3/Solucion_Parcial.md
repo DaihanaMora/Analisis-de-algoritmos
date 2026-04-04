@@ -4,7 +4,7 @@
  https://leetcode.com/problems/longest-increasing-subsequence/
  
 ### Código de la solución:
-```
+```python
 class Solution:
     def lengthOfLIS(self, nums: list[int]) -> int:
         if not nums:
@@ -47,7 +47,7 @@ class Solution:
  https://leetcode.com/problems/word-break/
  
 ### Código de la solución:
-```
+```python
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
         word_set = set(wordDict)
@@ -92,7 +92,7 @@ class Solution:
 https://leetcode.com/problems/decode-ways/
  
 ### Código de la solución: 
-```
+```python
 class Solution:
     def numDecodings(self, s: str) -> int:
         if not s or s[0] == '0':
@@ -108,7 +108,7 @@ class Solution:
             if 10 <= two_digit <= 26:
                 dp[i] += dp[i-2]            
         return dp[n]
- ```
+```
 ### Pantallazo o comprobante de Accepted:  
 ![Accepted Leetcode Punto 3](Punto3.png)   
 
@@ -127,3 +127,50 @@ class Solution:
     y solo es válido si está precedido por '1' o '2'. Si hay un '0' que no cumple esto (ej. "30" o "05"), 
     la cadena es inválida.
    
+## Punto 5
+
+### Enlace al problema en Leetcode: 
+https://leetcode.com/problems/partition-equal-subset-sum/
+
+### Codigo de la solucion:
+
+```python
+from typing import List
+
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        
+        total = sum(nums)
+        
+        # Si la suma es impar, no se puede dividir en dos partes iguales
+        if total % 2 != 0:
+            return False
+        
+        target = total // 2
+        
+        dp = [False] * (target + 1)
+        dp[0] = True
+        
+        for num in nums:
+            for j in range(target, num - 1, -1):
+                dp[j] = dp[j] or dp[j - num]
+        
+        return dp[target]        
+```
+### Pantallazo o comprobante de Accepted:  
+![Accepted Leetcode Punto 5](Punto5.png)
+
+### Análisis de Complejidad (Big O):
+
+**Tiempo:** O(n*target) -> Se recorren todos los numeros del arreglo y para cada uno, iteramos hasta `target`.
+
+Donde: 
+* `n` es la cantidad de elementos
+* `target=sum(nums)/2`
+
+**Espacio:** O(target) -> Se utiliza un arreglo `dp` dew tamaño `target+1`. (Sol. de espacio respecto a una solucion 2D)
+
+### Estado DP:
+
+`dp[j]`: Indica si es posible formar una suma `j` usando algunos elementos del arreglo.
+
