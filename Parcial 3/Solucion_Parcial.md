@@ -126,7 +126,38 @@ class Solution:
     Patrón de Restricción: El dígito '0' es el principal obstáculo. Un '0' no puede decodificarse solo,
     y solo es válido si está precedido por '1' o '2'. Si hay un '0' que no cumple esto (ej. "30" o "05"), 
     la cadena es inválida.
-   
+
+## Punto 4
+
+### Enlace al problema en LeetCode: 
+https://leetcode.com/problems/longest-common-subsequence/description/
+
+### Codigo de la solucion:
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        n = len(text1)
+        m = len(text2)
+        
+        dp = [[0 for _ in range(m + 1)] for _ in range(n + 1)]
+        
+        for i in range(1, n + 1):
+            for j in range(1, m + 1):
+                if text1[i - 1] == text2[j - 1]:
+                    dp[i][j] = 1 + dp[i - 1][j - 1]
+                else:
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+        
+        return dp[n][m]
+
+### Pantallazo o comprobante de Accepted:  
+![Accepted Leetcode Punto 4](Punto4.png)   
+
+### Estado DP:
+Estado: dp[i][j] es la longitud de la subsecuencia común más larga entre los primeros i caracteres de text1 y los primeros j de text2.
+Complejidad Temporal: O(n x m), ya que recorremos cada celda de la matriz una vez.
+Complejidad Espacial: O(n x m), por el espacio requerido para la matriz de resultados.
+
+
 ## Punto 5
 
 ### Enlace al problema en Leetcode: 
